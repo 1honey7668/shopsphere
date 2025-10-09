@@ -6,6 +6,18 @@ exports.addProduct = async (req , res)=>{
     try{
          const { name , description , price , category , images} = req.body;
 
+            if (!req.file) 
+            {
+            return res.status(400).json({ message: "Image is required" });
+             }
+
+        const imageData = {
+            public_id: Date.now().toString(), // you can generate a unique ID or use cloud upload ID
+            url: `/uploads/${req.file.filename}`, // path where image is stored
+        };
+
+
+
          if(!name || !description || !price || !category || !images)
          {
             return res.status(400).json({message : "all fields required"});
